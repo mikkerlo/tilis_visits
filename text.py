@@ -1,5 +1,6 @@
 from aiogram import types
 
 class RussianStrings():
+    @staticmethod
     def get_start_text(message: types.Message):
-        f"Привет, {message.from_user.get_mention}! Спасибо за регистрацию в боте!"
+        return f"Привет, {message.from_user.full_name}! Спасибо за регистрацию в боте!"
