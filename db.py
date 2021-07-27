@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, DateTime, Float, Table
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, Float, Table, create_engine
+from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 from sqlalchemy.sql.schema import ForeignKey
 
 Base = declarative_base()
+engine = create_engine("sqlite:///:memory:", echo=True)
+Session = sessionmaker(bind=engine)
 
 visit_visiter = Table(
     "visit_visiter",
@@ -24,7 +26,8 @@ class Visiter(Base):
 class Visit(Base):
     __tablename__ = "visit"
     visit_id = Column(Integer, primary_key=True)
-    name = Column(String)
     date = Column(DateTime)
     total_payment = Column(Float)
     visiters = relationship("Visit", secondary=visit_visiter)
+
+Base.metadata.create_all(engine)
